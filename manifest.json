@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "Bondage Club Script Framework",
+  "version": "1.0.0.0",
+  "background": {
+    "scripts": [
+      "extension/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": [
+        "https://www.bondageprojects.com/college/*",
+        "https://www.bondageprojects.elementfx.com/*",
+        "https://bondageprojects.elementfx.com/*",
+        "http://bondageprojects.com/college/*",
+        "http://www.bondageprojects.com/college/*",
+        "http://www.bondageprojects.elementfx.com/*"
+      ],
+      "all_frames": true,
+      "js": [
+        "extension/content.js",
+        "content/main.js",
+        "content/constants/screens.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "*"
+  ],
+  "permissions": [
+    "declarativeContent",
+    "activeTab",
+    "storage",
+    "tabs",
+    "<all_urls>",
+    "file://*/*",
+    "http://*/*",
+    "https://*/*"
+  ]
+}
