@@ -15,9 +15,22 @@ if (window.BCSF === undefined || !window.BCSF.Initialized) {
         await wait(1000)
 
         registerListener('ChatRoomMessage', data => {
-            console.log('OnChatRoomMessage')
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', minute: '2-digit', second: '2-digit' }
+            console.log(`${(new Date()).toLocaleString('nl-NL', options)} - OnChatRoomMessage`)
             console.log(data)
         })
+
+        // TODO: make/use some kind of plugin framework
+
+        // plugin BCX
+        if (window.BCX_Loaded === undefined) { 
+            let n = document.createElement("script")
+            n.setAttribute("language", "JavaScript")
+            n.setAttribute("crossorigin", "anonymous")
+            n.setAttribute("src", "https://jomshir98.github.io/bondage-club-extended/bcx.js?_="+Date.now())
+            n.onload = () => n.remove()
+            document.head.appendChild(n) 
+        }
 
         let lastContext = ''
 
