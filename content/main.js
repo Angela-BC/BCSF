@@ -14,9 +14,28 @@ if (window.BCSF === undefined || !window.BCSF.Initialized) {
 
         await wait(1000)
 
+        const modules = [
+            chatLogger,
+            actionLogger            
+        ]
+
         registerListener('ChatRoomMessage', data => {
-            console.log('OnChatRoomMessage')
-            console.log(data)
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', minute: '2-digit', second: '2-digit' }
+            const dateStr = `${(new Date()).toLocaleString('nl-NL', options)}`
+            
+            let isHandled = false
+            for (let i = 0; i < modules.length ; i++) {
+                const module = modules[i]
+                if (module && module.onMessage){
+                    if (module.onMessage(data, dateStr)){
+                        isHandled = true
+                    }
+                }
+            }
+            if (!isHandled){
+                console.log(`${dateStr} - OnChatRoomMessage`)
+                console.log(data)
+            }
         })
 
         let lastContext = ''

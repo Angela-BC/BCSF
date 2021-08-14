@@ -6,7 +6,9 @@ window.addEventListener("load", () => {
     const scriptFiles = [
         "content/constants/screens.js",
         "content/server.js",
-        "content/main.js"
+        "content/main.js",
+        "content/modules/chatLogger.js",
+        "content/modules/actionLogger.js"
     ]
 
     scriptFiles.forEach(scriptFileName => {
