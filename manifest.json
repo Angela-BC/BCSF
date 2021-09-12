@@ -20,9 +20,7 @@
       ],
       "all_frames": true,
       "js": [
-        "extension/content.js",
-        "content/main.js",
-        "content/constants/screens.js"
+        "extension/content.js"
       ]
     }
   ],
