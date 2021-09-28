@@ -1,3 +1,14 @@
+(()=>{
+    class chatLogger {
+        constructor(capabilities) {
+            this.capabilities = []        
+        }
+
+    }
+
+    window.BCSF.register('module', chatLogger, ['capabilities'], window.BCSF.dependencyTypes.perContext)
+})()
+
 // const chatLogger = {
 //     onMessage: (data, dateStr) => {
 //         if (data.Type !== 'Chat' && data.Type !== 'Emote') {

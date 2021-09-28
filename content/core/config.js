@@ -5,6 +5,6 @@
         }
     }
 
-    window.BCSF.services.register('config', config, [])
+    window.BCSF.register('config', config, [])
 
 })()

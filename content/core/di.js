@@ -1,43 +1,63 @@
 (() => {
-    window.BCSF = {}
-
     const dependencyTypes = {
         singleton: 0,
-        transient: 1
+        transient: 1,
+        perContext: 2
     }
 
     class DependencyInjection {
         constructor() {
             this.dependencies = {},
-            this.singletons = {}
+            this.singletons = {},
+            this.dependencyTypes = dependencyTypes
         }
     
+        registerInstance(typeName, instance){
+           this.singletons[typeName] = instance
+           this.dependencies[typeName] = []
+        }
+
         register(typeName, classType, dependencies, dependencyType){
-            console.log(`DI::register ${typeName}`)
-            this.dependencies[typeName] = {
+            if (!this.dependencies[typeName]) {
+                this.dependencies[typeName] = []
+            }
+            this.dependencies[typeName].push({
                 typeName,
                 classType,
                 dependencies: dependencies ?? [],
                 dependencyType: dependencyType ?? dependencyTypes.transient
-            }
+            })
         }
     
         getInstance(typeName, resolved = null) {
-            resolved = resolved ?? this.singletons
-            if (resolved[typeName]) return resolve[typeName]
+            resolved = resolved ?? {...this.singletons}
+            if (resolved[typeName]) return resolved[typeName]
     
-            const typeInfo = this.dependencies[typeName]
-            if (!typeInfo) throw `Unable to resolve type ${typeName}`
-            let params = []
-            for (var index=0; index<typeInfo.dependencies.length; index++){
-                var dependencyTypeName = typeInfo.dependencies[index]
-                var dependencyInstance = this.getInstance(dependencyTypeName, resolved)
-                params.push(dependencyInstance)
-            }       
+            const typeInfos = this.dependencies[typeName]
+            if (!typeInfos || typeInfos.length === 0) throw `Unable to resolve type ${typeName}`
+            let result = []
+            for (var i1=0; i1 < typeInfos.length; i1++){
+                const typeInfo = typeInfos[i1]
+                const resolvedContext = {...this.singletons}
+                let params = []
+                for (let i2=0; i2 < typeInfo.dependencies.length; i2++){
+                    var dependencyTypeName = typeInfo.dependencies[i2]
+                    var dependencyInstance = this.getInstance(dependencyTypeName, typeInfo.dependencyType === dependencyTypes.perContext ? resolvedContext : resolved)
+                    params.push(dependencyInstance)
+                }       
+        
+                var instance = new typeInfo.classType(...params)
+                result.push(instance)
+            }
+            if (result.length === 0){
+                throw `Unable to resolve type ${typeName}`
+            }
     
-            var result = new typeInfo.classType(...params)
+            if (result.length === 1){
+                result = result[0]
+            }
     
-            if (typeInfo.dependencyType === dependencyTypes.singleton){
+            if (typeInfos[0].dependencyType === dependencyTypes.singleton){
                 this.singletons[typeName] = result
             }
             resolved[typeName] = result
@@ -45,9 +65,10 @@
             return result
         }
     
-        dependencyTypes
     }
     
-    window.BCSF.services = new DependencyInjection()
+    const instance = new DependencyInjection()
+    instance.registerInstance('services', instance)
+    window.BCSF = instance
     console.log('DI ready')
 })()

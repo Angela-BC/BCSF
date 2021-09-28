@@ -1,4 +1,4 @@
 (() =>{
-    const main = window.BCSF.services.getInstance('main')
+    const main = window.BCSF.getInstance('main')
     main.run()
 })()

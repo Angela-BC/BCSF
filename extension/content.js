@@ -28,6 +28,9 @@
     window.addEventListener('load', () => {
         loadScript('content/core/di.js').then((context) => {
             const scriptFiles = [
+                'content/constants/capabilities.js',
+                'content/modules/bcx.js',
+                'content/modules/chatLogger.js',
                 'content/core/config.js',
                 'content/core/main.js',
             ]
