@@ -1,10 +1,10 @@
 (()=>{
-    class config {
+    class Config {
         constructor(){
 
         }
     }
 
-    window.BCSF.register('config', config, [])
+    window.BCSF.register('config', Config, [], window.BCSF.dependencyTypes.singleton)
 
 })()

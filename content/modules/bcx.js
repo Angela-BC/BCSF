@@ -1,5 +1,5 @@
 (()=>{
-    class bcx {
+    class Bcx {
         constructor(capabilities) {
             this.capabilities = [capabilities.onLoad]        
         }
@@ -17,5 +17,6 @@
 }
     }
 
-    window.BCSF.register('module', bcx, ['capabilities'], window.BCSF.dependencyTypes.perContext)
+    window.BCSF.register('bcx', Bcx, ['capabilities'], window.BCSF.dependencyTypes.perContext)
+    window.BCSF.registerModule('bcx')
 })()

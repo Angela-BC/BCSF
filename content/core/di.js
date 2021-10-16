@@ -5,19 +5,26 @@
         perContext: 2
     }
 
-    class DependencyInjection {
+    class Services {
         constructor() {
             this.dependencies = {},
             this.singletons = {},
-            this.dependencyTypes = dependencyTypes
-        }
-    
-        registerInstance(typeName, instance){
-           this.singletons[typeName] = instance
-           this.dependencies[typeName] = []
+            this.dependencyTypes = dependencyTypes,
+            this.modules = []
         }
 
-        register(typeName, classType, dependencies, dependencyType){
+        registerModule(typeName){
+            this.modules.push(typeName)
+        }
+
+        registerInstance(typeName, instance) {
+            typeName = typeName.toLowerCase()
+            this.singletons[typeName] = instance
+            this.dependencies[typeName] = []
+        }
+
+        register(typeName, classType, dependencies, dependencyType) {
+            typeName = typeName.toLowerCase()
             if (!this.dependencies[typeName]) {
                 this.dependencies[typeName] = []
             }
@@ -30,6 +37,7 @@
         }
     
         getInstance(typeName, resolved = null) {
+            typeName = typeName.toLowerCase()
             resolved = resolved ?? {...this.singletons}
             if (resolved[typeName]) return resolved[typeName]
     
@@ -67,7 +75,7 @@
     
     }
     
-    const instance = new DependencyInjection()
+    const instance = new Services()
     instance.registerInstance('services', instance)
     window.BCSF = instance
     console.log('DI ready')

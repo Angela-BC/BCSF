@@ -1,5 +1,5 @@
 (() => {
-    class main {
+    class Main {
         constructor(config, services, capabilities){
             this.config = config
             this.services = services
@@ -8,9 +8,10 @@
 
         run () {
             console.log('start main loop')
-            const modules = this.services.getInstance('module')   
+            const modules = this.services.modules   
             for (let i=0; i < modules.length; i++){
-                const module = modules[i]
+                const typeName = modules[i]
+                const module = this.services.getInstance(typeName)
 
                 // TODO: check if module is enabled in the configuration
 
@@ -20,7 +21,7 @@
             }
         }
     }
-    window.BCSF.register('main', main, ['config', 'services', 'capabilities'])
+    window.BCSF.register('main', Main, ['config', 'services', 'capabilities'])
     
 })()
 

@@ -1,12 +1,13 @@
 (()=>{
-    class chatLogger {
+    class DataLogger {
         constructor(capabilities) {
             this.capabilities = []        
         }
 
     }
 
-    window.BCSF.register('module', chatLogger, ['capabilities'], window.BCSF.dependencyTypes.perContext)
+    window.BCSF.register('dataLogger', DataLogger, ['capabilities'], window.BCSF.dependencyTypes.perContext)
+    window.BCSF.registerModule('dataLogger')
 })()
 
 // const chatLogger = {
